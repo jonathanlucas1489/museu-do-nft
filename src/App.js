@@ -1,32 +1,28 @@
-import { Flex, Box, Switch } from "@chakra-ui/react"
-import { useColorMode, useColorModeValue } from "@chakra-ui/system";
+import Home from './pages/Home'
+import Profile from './pages/Profile'
+import { Route, Switch } from 'react-router-dom'
 import { useMoralis } from "react-moralis";
-import Header from './components/Header'
+import { Container } from '@chakra-ui/react';
 
 function App() {
-  const { colorMode, toggleColorMode } = useColorMode()
-  const { authenticate, isAuthenticated, isAuthenticating, logout } = useMoralis()
-  const bg = useColorModeValue("#fff", "#1a202c")
-  if (isAuthenticated) {
-    return (
-      <Flex direction="column" >
-        <Box w="100%" flex='1' bg={bg} boxShadow="xl">
-          <Header />
-        </Box>
-        <Box>
-        </Box>
-      </Flex>
-    )}
+  const { isAuthenticated, isAuthenticating } = useMoralis()
   return (
-    <Flex direction="column" >
-      <Box w="100%" flex='1' bg={bg} boxShadow="xl">
-        <Header />
-      </Box>
-      <Box>
-        <Switch onChange={toggleColorMode} colorScheme='whiteAlpha'>
-        </Switch>
-      </Box>
-    </Flex>
-  );
+    <Container>
+      {
+        isAuthenticated ? (
+        <Switch>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+          <Route path="/perfil" exact>
+            <Profile />
+          </Route>
+        </Switch>) : (
+        <div> cuu</div>
+        )
+      }
+
+    </Container>
+  )
 }
 export default App;

@@ -3,18 +3,20 @@ import {
     Flex,
     Spacer,
     Box,
-    Img
+    Img,
+    Switch  
 } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/button";
-import { useColorModeValue } from "@chakra-ui/system";
-import logo from '../assets/images/logoFinalpng.png'
+import { useColorMode, useColorModeValue } from "@chakra-ui/system";
+import logo from '../../assets/images/logoFinalpng.png'
 import { useMoralis } from "react-moralis";
 import SignUP from './SignUP';
+import Login from './Login';
+import ConnectWallet from './ConnectWallet';
 
 const Header = () => {
-    const bg = useColorModeValue("red.500", "red.200")
-    const color = useColorModeValue("white", "gray.800")
-    const { authenticate, isAuthenticated, isAuthenticating, logout, authError, signup } = useMoralis()
+    const { isAuthenticated, isAuthenticating, logout, signup } = useMoralis()
+    const { colorMode, toggleColorMode } = useColorMode()
     if (isAuthenticated) {
         return (
             <Flex align='center'>
@@ -44,12 +46,11 @@ const Header = () => {
             </Box>
             <Spacer />
             <Box>
+                <Switch onChange={toggleColorMode} colorScheme='whiteAlpha' m='2'>
+                </Switch>
+                <Login />
                 <SignUP />
-                <Button mr="4"
-                    isLoading={isAuthenticating} loadingText="CONECTANDO"
-                    variant="outline" onClick={() => { authenticate() }}>
-                    Conectar Carteira
-                </Button>
+                <ConnectWallet />
             </Box>
         </Flex>
     )
